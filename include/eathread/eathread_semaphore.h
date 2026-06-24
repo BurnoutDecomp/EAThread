@@ -229,6 +229,14 @@ namespace EA
 			/// to ascertain which was the last thread to return from the Wait. 
 			int Wait(const ThreadTime& timeoutAbsolute = kTimeoutNone);
 
+			/// Wait (X360-ALIGNMENT, forked vendor)
+			/// Burnout X360 ABI: EA::Thread::Semaphore::Wait(const u32* pTimeoutAbsolute) @0x82B42A40
+			/// where *p is an absolute deadline: 0xFFFFFFFF (-1) == INFINITE (wait forever),
+			/// 0 == poll. Added as an additive overload (distinct mangling from
+			/// Wait(const ThreadTime&)) so the reconstructed CgsFileSystem::OperationPool links
+			/// against this forked vendor Semaphore. See eathread-strategy memory.
+			int Wait(const unsigned int* pTimeoutAbsolute);
+
 			/// Post
 			/// Increments the signalled value of the semaphore by the count. 
 			/// Returns the available count after the operation has completed. 
